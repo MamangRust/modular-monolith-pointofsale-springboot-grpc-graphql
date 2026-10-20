@@ -1,0 +1,5 @@
+"Root query type. Fields are declared in the per-domain schema files via `extend type Query`."
+type Query
+
+"Root mutation type. Fields are declared in the per-domain schema files via `extend type Mutation`."
+type Mutation

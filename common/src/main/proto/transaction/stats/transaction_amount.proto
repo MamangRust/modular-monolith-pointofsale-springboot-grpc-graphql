@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package pb.transaction.stats;
+
+import "transaction/transaction.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.transaction.stats";
+
+service TransactionStatsAmountService {
+  rpc FindMonthlyTransactionSuccess(pb.transaction.FindYearMonthTransaction) returns (pb.transaction.ApiResponseTransactionMonthlyAmountSuccess) {}
+  rpc FindYearlyTransactionSuccess(pb.transaction.FindYearTransaction) returns (pb.transaction.ApiResponseTransactionYearlyAmountSuccess) {}
+  rpc FindMonthlyTransactionFailed(pb.transaction.FindYearMonthTransaction) returns (pb.transaction.ApiResponseTransactionMonthlyAmountFailed) {}
+  rpc FindYearlyTransactionFailed(pb.transaction.FindYearTransaction) returns (pb.transaction.ApiResponseTransactionYearlyAmountFailed) {}
+  rpc FindMonthlyTransactionSuccessByMerchant(pb.transaction.FindYearMonthTransactionByMerchant) returns (pb.transaction.ApiResponseTransactionMonthlyAmountSuccess) {}
+  rpc FindYearlyTransactionSuccessByMerchant(pb.transaction.FindYearTransactionByMerchant) returns (pb.transaction.ApiResponseTransactionYearlyAmountSuccess) {}
+  rpc FindMonthlyTransactionFailedByMerchant(pb.transaction.FindYearMonthTransactionByMerchant) returns (pb.transaction.ApiResponseTransactionMonthlyAmountFailed) {}
+  rpc FindYearlyTransactionFailedByMerchant(pb.transaction.FindYearTransactionByMerchant) returns (pb.transaction.ApiResponseTransactionYearlyAmountFailed) {}
+}

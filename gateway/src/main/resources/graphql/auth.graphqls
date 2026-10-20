@@ -1,0 +1,57 @@
+"Authentication token payload."
+type TokenResponse {
+    access_token: String
+    refresh_token: String
+}
+
+"A user object returned by the auth service."
+type AuthUser {
+    id: Int
+    username: String
+    firstname: String
+    lastname: String
+    email: String
+    createdAt: String
+    updatedAt: String
+}
+
+type TokenApiResponse {
+    status: String
+    message: String
+    data: TokenResponse
+}
+
+type AuthUserApiResponse {
+    status: String
+    message: String
+    data: AuthUser
+}
+
+input RegisterInput {
+    firstname: String
+    lastname: String
+    username: String
+    email: String
+    password: String
+    confirmPassword: String
+}
+
+input LoginInput {
+    username: String
+    password: String
+}
+
+input RefreshTokenInput {
+    refreshToken: String
+}
+
+extend type Mutation {
+    register(input: RegisterInput!): AuthUserApiResponse
+    login(input: LoginInput!): TokenApiResponse
+    refreshToken(input: RefreshTokenInput!): TokenApiResponse
+}
+
+extend type Query {
+    healthchecker: String
+    me: AuthUserApiResponse
+}

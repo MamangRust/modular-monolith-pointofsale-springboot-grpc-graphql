@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package pb.transaction;
+
+import "google/protobuf/empty.proto";
+
+import "transaction/transaction.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.transaction";
+
+service TransactionCommandService {
+  rpc CreateTransaction(CreateTransactionRequest) returns (ApiResponseTransaction) {}
+  rpc UpdateTransaction(UpdateTransactionRequest) returns (ApiResponseTransaction) {}
+  rpc TrashedTransaction(FindByIdTransactionRequest) returns (ApiResponseTransactionDeleteAt) {}
+  rpc RestoreTransaction(FindByIdTransactionRequest) returns (ApiResponseTransactionDeleteAt) {}
+  rpc DeleteTransactionPermanent(FindByIdTransactionRequest) returns (ApiResponseTransactionAll) {}
+  rpc RestoreAllTransaction(google.protobuf.Empty) returns (ApiResponseTransactionAll) {}
+  rpc DeleteAllTransactionPermanent(google.protobuf.Empty) returns (ApiResponseTransactionAll) {}
+}

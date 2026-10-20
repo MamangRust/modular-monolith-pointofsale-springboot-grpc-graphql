@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.sanedge</groupId>
+		<artifactId>pointofsale</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>common</artifactId>
+	<name>common</name>
+	<description>gRPC/protobuf contracts and shared code</description>
+
+	<dependencies>
+		<!-- generated stubs runtime -->
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-stub</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-protobuf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-services</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.annotation</groupId>
+			<artifactId>jakarta.annotation-api</artifactId>
+		</dependency>
+		<!-- generated gRPC code uses javax.annotation.Generated -->
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+
+		<!-- shared code (BaseModel, JwtProvider, GrpcServerLifecycle) -->
+		<dependency>
+			<groupId>jakarta.persistence</groupId>
+			<artifactId>jakarta.persistence-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+		</dependency>
+
+		<!-- observability: OpenTelemetry tracing + metrics (Spring Boot auto-configures
+		     an io.opentelemetry.api.OpenTelemetry bean when these are present) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-tracing-bridge-otel</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-exporter-otlp</artifactId>
+		</dependency>
+
+		<!-- resilience: dependency-guard (circuit breaker + bulkhead) for gRPC clients -->
+		<dependency>
+			<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-circuitbreaker</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-bulkhead</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- chaos engineering (com.sanedge.ecommerce.common.chaos) -->
+		<!-- YAML parsing for chaos.yaml -->
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+		</dependency>
+		<!-- ChaosHttpInterceptor is a Spring MVC HandlerInterceptor; only web
+		     modules bring spring-web, so this is optional and the interceptor is
+		     @ConditionalOnClass. -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- Servlet API: needed to compile ChaosHttpInterceptor. Provided at
+		     runtime by the web container in modules that have spring-boot-starter-web. -->
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- ChaosStatementInspector hooks Hibernate SQL execution; only JPA
+		     modules have hibernate-core, so this is optional too. -->
+		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- transactional outbox (com.sanedge.pointofsale.common.outbox) -->
+		<!-- OutboxPublisher sends via KafkaTemplate; only producer modules
+		     (auth, transaction, merchant, ...) have spring-kafka, so this is optional. -->
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- OutboxEventFactory serializes the event envelope to JSON. -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<extensions>
+			<extension>
+				<groupId>kr.motd.maven</groupId>
+				<artifactId>os-maven-plugin</artifactId>
+				<version>${os-maven-plugin.version}</version>
+			</extension>
+		</extensions>
+		<plugins>
+			<plugin>
+				<groupId>org.xolstice.maven.plugins</groupId>
+				<artifactId>protobuf-maven-plugin</artifactId>
+				<configuration>
+					<protocArtifact>com.google.protobuf:protoc:${protoc-gen.version}:exe:${os.detected.classifier}</protocArtifact>
+					<pluginId>grpc-java</pluginId>
+					<pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}</pluginArtifact>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>compile-custom</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

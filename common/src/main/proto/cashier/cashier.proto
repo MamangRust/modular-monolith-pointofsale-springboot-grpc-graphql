@@ -1,0 +1,181 @@
+syntax = "proto3";
+
+package pb.cashier;
+
+import "common/api.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.cashier";
+
+message FindAllCashierRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+  string search = 3;
+}
+
+message FindByMerchantCashierRequest {
+  int32 merchant_id = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+  string search = 4;
+}
+
+message FindByIdCashierRequest {
+  int32 cashier_id = 1;
+}
+
+message CreateCashierRequest {
+  int32 merchant_id = 1;
+  int32 user_id = 2;
+  string name = 3;
+}
+
+message UpdateCashierRequest {
+  int32 cashier_id = 1;
+  string name = 2;
+}
+
+message CashierResponse {
+  int32 cashier_id = 1;
+  int32 merchant_id = 2;
+  string name = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}
+
+message CashierResponseDeleteAt {
+  int32 cashier_id = 1;
+  int32 merchant_id = 2;
+  string name = 3;
+  string created_at = 4;
+  string updated_at = 5;
+  string deleted_at = 6;
+}
+
+message CashierResponseMonthSales {
+  string month = 1;
+  int32 cashier_id = 2;
+  string cashier_name = 3;
+  int32 order_count = 4;
+  int64 total_sales = 5;
+}
+
+message CashierResponseYearSales {
+  string year = 1;
+  int32 cashier_id = 2;
+  string cashier_name = 3;
+  int32 order_count = 4;
+  int64 total_sales = 5;
+}
+
+message CashierResponseMonthTotalSales {
+  string year = 1;
+  string month = 2;
+  int64 total_sales = 3;
+}
+
+message CashierResponseYearTotalSales {
+  string year = 1;
+  int64 total_sales = 2;
+}
+
+message FindYearCashier {
+  int32 year = 1;
+}
+
+message FindYearCashierById {
+  int32 cashier_id = 1;
+  int32 year = 2;
+}
+
+message FindYearCashierByMerchant {
+  int32 merchant_id = 1;
+  int32 year = 2;
+}
+
+message FindYearMonthTotalSales {
+  int32 year = 1;
+  int32 month = 2;
+}
+
+message FindYearMonthTotalSalesById {
+  int32 cashier_id = 1;
+  int32 year = 2;
+  int32 month = 3;
+}
+
+message FindYearMonthTotalSalesByMerchant {
+  int32 merchant_id = 1;
+  int32 year = 2;
+  int32 month = 3;
+}
+
+message FindYearTotalSales {
+  int32 year = 1;
+}
+
+message FindYearTotalSalesById {
+  int32 cashier_id = 1;
+  int32 year = 2;
+}
+
+message FindYearTotalSalesByMerchant {
+  int32 merchant_id = 1;
+  int32 year = 2;
+}
+
+message ApiResponseCashier {
+  string status = 1;
+  string message = 2;
+  CashierResponse data = 3;
+}
+
+message ApiResponseCashierDeleteAt {
+  string status = 1;
+  string message = 2;
+  CashierResponseDeleteAt data = 3;
+}
+
+message ApiResponseCashierAll {
+  string status = 1;
+  string message = 2;
+  bool success = 3;
+}
+
+message ApiResponsePaginationCashier {
+  string status = 1;
+  string message = 2;
+  repeated CashierResponse data = 3;
+  pb.common.PaginationMeta pagination_meta = 4;
+}
+
+message ApiResponsePaginationCashierDeleteAt {
+  string status = 1;
+  string message = 2;
+  repeated CashierResponseDeleteAt data = 3;
+  pb.common.PaginationMeta pagination_meta = 4;
+}
+
+message ApiResponseCashierMonthSales {
+  string status = 1;
+  string message = 2;
+  repeated CashierResponseMonthSales data = 3;
+}
+
+message ApiResponseCashierYearSales {
+  string status = 1;
+  string message = 2;
+  repeated CashierResponseYearSales data = 3;
+}
+
+message ApiResponseCashierMonthTotalSales {
+  string status = 1;
+  string message = 2;
+  repeated CashierResponseMonthTotalSales data = 3;
+}
+
+message ApiResponseCashierYearTotalSales {
+  string status = 1;
+  string message = 2;
+  repeated CashierResponseYearTotalSales data = 3;
+}

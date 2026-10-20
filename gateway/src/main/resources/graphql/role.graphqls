@@ -1,0 +1,76 @@
+"A role record (active, not deleted)."
+type Role {
+    id: Int
+    name: String
+    createdAt: String
+    updatedAt: String
+}
+
+"A role record including its soft-delete timestamp."
+type RoleDeleteAt {
+    id: Int
+    name: String
+    createdAt: String
+    updatedAt: String
+    deletedAt: String
+}
+
+type RoleApiResponse {
+    status: String
+    message: String
+    data: Role
+}
+
+type RoleDeleteAtApiResponse {
+    status: String
+    message: String
+    data: RoleDeleteAt
+}
+
+type RoleListResponse {
+    status: String
+    message: String
+    data: [Role]
+}
+
+type RoleListPaginationResponse {
+    status: String
+    message: String
+    data: [Role]
+    pagination: PageInfo
+}
+
+type RoleDeleteAtListPaginationResponse {
+    status: String
+    message: String
+    data: [RoleDeleteAt]
+    pagination: PageInfo
+}
+
+input CreateRoleInput {
+    name: String
+}
+
+input UpdateRoleInput {
+    id: Int
+    name: String
+}
+
+extend type Query {
+    roles(input: PageInput): RoleListPaginationResponse
+    rolesActive(input: PageInput): RoleDeleteAtListPaginationResponse
+    rolesTrashed(input: PageInput): RoleDeleteAtListPaginationResponse
+    role(id: Int!): RoleApiResponse
+    rolesByUserId(userId: Int!): RoleListResponse
+    roleByName(name: String!): RoleApiResponse
+}
+
+extend type Mutation {
+    createRole(input: CreateRoleInput!): RoleApiResponse
+    updateRole(input: UpdateRoleInput!): RoleApiResponse
+    trashRole(id: Int!): RoleDeleteAtApiResponse
+    restoreRole(id: Int!): RoleDeleteAtApiResponse
+    deleteRolePermanent(id: Int!): BooleanApiResponse
+    restoreAllRoles: BooleanApiResponse
+    deleteAllRolesPermanent: BooleanApiResponse
+}

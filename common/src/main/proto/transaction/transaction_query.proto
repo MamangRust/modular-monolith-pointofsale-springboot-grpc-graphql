@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package pb.transaction;
+
+import "transaction/transaction.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.transaction";
+
+service TransactionQueryService {
+  rpc FindAll(FindAllTransactionRequest) returns (ApiResponsePaginationTransaction) {}
+  rpc FindById(FindByIdTransactionRequest) returns (ApiResponseTransaction) {}
+  rpc FindByMerchant(FindByMerchantTransactionRequest) returns (ApiResponsePaginationTransaction) {}
+  rpc FindByOrderId(FindByOrderTransactionRequest) returns (ApiResponseTransaction) {}
+  rpc FindByActive(FindAllTransactionRequest) returns (ApiResponsePaginationTransactionDeleteAt) {}
+  rpc FindByTrashed(FindAllTransactionRequest) returns (ApiResponsePaginationTransactionDeleteAt) {}
+}

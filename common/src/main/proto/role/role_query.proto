@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package pb.role;
+
+import "role/role.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.role";
+
+service RoleQueryService {
+  rpc FindAll(FindAllRoleRequest) returns (ApiResponsePaginationRole) {}
+  rpc FindById(FindByIdRoleRequest) returns (ApiResponseRole) {}
+  rpc FindByName(FindByNameRoleRequest) returns (ApiResponseRole) {}
+  rpc FindByUserId(FindByUserIdRoleRequest) returns (ApiRolesResponse) {}
+  rpc FindByActive(FindAllRoleRequest) returns (ApiResponsePaginationRoleDeleteAt) {}
+  rpc FindByTrashed(FindAllRoleRequest) returns (ApiResponsePaginationRoleDeleteAt) {}
+}

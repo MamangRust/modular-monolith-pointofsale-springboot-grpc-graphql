@@ -1,0 +1,176 @@
+"An order record (active, not deleted)."
+type Order {
+    id: Long
+    merchantId: Int
+    cashierId: Int
+    totalPrice: Long
+    createdAt: String
+    updatedAt: String
+}
+
+"An order record including its soft-delete timestamp."
+type OrderDeleteAt {
+    id: Long
+    merchantId: Int
+    cashierId: Int
+    totalPrice: Long
+    createdAt: String
+    updatedAt: String
+    deletedAt: String
+}
+
+"Monthly order aggregate."
+type OrderMonthly {
+    month: String
+    orderCount: Int
+    totalRevenue: Long
+    totalItemsSold: Int
+}
+
+"Yearly order aggregate."
+type OrderYearly {
+    year: String
+    orderCount: Int
+    totalRevenue: Long
+    totalItemsSold: Int
+    activeCashiers: Int
+    uniqueProductsSold: Int
+}
+
+"Monthly total-revenue aggregate."
+type OrderMonthlyTotalRevenue {
+    year: String
+    month: String
+    totalRevenue: Long
+}
+
+"Yearly total-revenue aggregate."
+type OrderYearlyTotalRevenue {
+    year: String
+    totalRevenue: Long
+}
+
+type OrderApiResponse {
+    status: String
+    message: String
+    data: Order
+}
+
+type OrderDeleteAtApiResponse {
+    status: String
+    message: String
+    data: OrderDeleteAt
+}
+
+type OrderListPaginationResponse {
+    status: String
+    message: String
+    data: [Order]
+    pagination: PageInfo
+}
+
+type OrderDeleteAtListPaginationResponse {
+    status: String
+    message: String
+    data: [OrderDeleteAt]
+    pagination: PageInfo
+}
+
+type OrderMonthlyListResponse {
+    status: String
+    message: String
+    data: [OrderMonthly]
+}
+
+type OrderYearlyListResponse {
+    status: String
+    message: String
+    data: [OrderYearly]
+}
+
+type OrderMonthlyTotalRevenueListResponse {
+    status: String
+    message: String
+    data: [OrderMonthlyTotalRevenue]
+}
+
+type OrderYearlyTotalRevenueListResponse {
+    status: String
+    message: String
+    data: [OrderYearlyTotalRevenue]
+}
+
+input CreateOrderItemInput {
+    productId: Int
+    quantity: Int
+    price: Int
+}
+
+input CreateOrderInput {
+    merchantId: Int
+    cashierId: Int
+    items: [CreateOrderItemInput]
+}
+
+input UpdateOrderItemInput {
+    orderItemId: Int
+    productId: Int
+    quantity: Int
+    price: Int
+}
+
+input UpdateOrderInput {
+    orderId: Int
+    cashierId: Int
+    items: [UpdateOrderItemInput]
+}
+
+input OrderYearMonthInput {
+    yearMonth: Int
+}
+
+input OrderYearInput {
+    year: Int
+}
+
+input OrderMonthTotalRevenueInput {
+    year: Int
+    month: Int
+}
+
+input OrderMerchantYearInput {
+    merchantId: Int
+    year: Int
+}
+
+input OrderMerchantYearMonthInput {
+    merchantId: Int
+    year: Int
+    month: Int
+}
+
+extend type Query {
+    orders(input: PageInput): OrderListPaginationResponse
+    order(id: Int!): OrderApiResponse
+    ordersActive(input: PageInput): OrderDeleteAtListPaginationResponse
+    ordersTrashed(input: PageInput): OrderDeleteAtListPaginationResponse
+    ordersByMerchant(merchantId: Int!, input: PageInput): OrderListPaginationResponse
+    orderMonthlyRevenue(input: OrderYearMonthInput): OrderMonthlyListResponse
+    orderYearlyRevenue(input: OrderYearInput): OrderYearlyListResponse
+    orderMonthlyTotalRevenue(input: OrderMonthTotalRevenueInput): OrderMonthlyTotalRevenueListResponse
+    orderYearlyTotalRevenue(input: OrderYearInput): OrderYearlyTotalRevenueListResponse
+    orderMerchantMonthlyRevenue(input: OrderMerchantYearInput): OrderMonthlyListResponse
+    orderMerchantYearlyRevenue(input: OrderMerchantYearInput): OrderYearlyListResponse
+    orderMerchantMonthlyTotalRevenue(input: OrderMerchantYearMonthInput): OrderMonthlyTotalRevenueListResponse
+    orderMerchantYearlyTotalRevenue(input: OrderMerchantYearInput): OrderYearlyTotalRevenueListResponse
+}
+
+extend type Mutation {
+    createOrder(input: CreateOrderInput!): OrderApiResponse
+    updateOrder(input: UpdateOrderInput!): OrderApiResponse
+    trashedOrder(id: Int!): OrderDeleteAtApiResponse
+    restoreOrder(id: Int!): OrderDeleteAtApiResponse
+    deleteOrderPermanent(id: Int!): BooleanApiResponse
+    restoreAllOrders: BooleanApiResponse
+    deleteAllOrdersPermanent: BooleanApiResponse
+}

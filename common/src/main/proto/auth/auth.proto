@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+package pb.auth;
+
+import "google/protobuf/empty.proto";
+import "user/user.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.auth";
+
+service AuthService {
+  rpc VerifyCode(VerifyCodeRequest) returns (ApiResponseVerifyCode) {}
+  rpc ForgotPassword(ForgotPasswordRequest) returns (ApiResponseForgotPassword) {}
+  rpc ResetPassword(ResetPasswordRequest) returns (ApiResponseResetPassword) {}
+  rpc RegisterUser(RegisterRequest) returns (ApiResponseRegister) {}
+  rpc LoginUser(LoginRequest) returns (ApiResponseLogin) {}
+  rpc RefreshToken(RefreshTokenRequest) returns (ApiResponseRefreshToken) {}
+  rpc GetMe(GetMeRequest) returns (ApiResponseGetMe) {}
+  rpc HealthCheck(google.protobuf.Empty) returns (ApiResponseHealth) {}
+}
+
+message VerifyCodeRequest {
+  string code = 1;
+}
+
+message ForgotPasswordRequest {
+  string email = 1;
+}
+
+message ResetPasswordRequest {
+  string reset_token = 1;
+  string password = 2;
+  string confirm_password = 3;
+}
+
+message RegisterRequest {
+  string firstname = 1;
+  string lastname = 2;
+  string username = 3;
+  string email = 4;
+  string password = 5;
+  string confirm_password = 6;
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message RefreshTokenRequest {
+  string refresh_token = 1;
+}
+
+message GetMeRequest {
+  string username = 1;
+}
+
+message TokenResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message ApiResponseRegister {
+  string status = 1;
+  string message = 2;
+  pb.user.UserResponse data = 3;
+}
+
+message ApiResponseLogin {
+  string status = 1;
+  string message = 2;
+  TokenResponse data = 3;
+}
+
+message ApiResponseRefreshToken {
+  string status = 1;
+  string message = 2;
+  TokenResponse data = 3;
+}
+
+message ApiResponseGetMe {
+  string status = 1;
+  string message = 2;
+  pb.user.UserResponse data = 3;
+}
+
+message ApiResponseHealth {
+  string status = 1;
+  string message = 2;
+}
+
+message ApiResponseVerifyCode {
+  string status = 1;
+  string message = 2;
+}
+
+message ApiResponseForgotPassword {
+  string status = 1;
+  string message = 2;
+}
+
+message ApiResponseResetPassword {
+  string status = 1;
+  string message = 2;
+}

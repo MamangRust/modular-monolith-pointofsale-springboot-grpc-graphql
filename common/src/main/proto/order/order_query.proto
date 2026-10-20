@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package pb.order;
+
+import "order/order.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.order";
+
+service OrderQueryService {
+  rpc FindAll(FindAllOrderRequest) returns (ApiResponsePaginationOrder) {}
+  rpc FindById(FindByIdOrderRequest) returns (ApiResponseOrder) {}
+  rpc FindByMerchant(FindByMerchantOrderRequest) returns (ApiResponsePaginationOrder) {}
+  rpc FindByActive(FindAllOrderRequest) returns (ApiResponsePaginationOrderDeleteAt) {}
+  rpc FindByTrashed(FindAllOrderRequest) returns (ApiResponsePaginationOrderDeleteAt) {}
+}

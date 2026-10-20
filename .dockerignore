@@ -1,0 +1,38 @@
+# Build context is the pointofsale/ multi-module root:
+#   docker build -f <module>/Dockerfile -t pointofsale/<module>:latest .
+#
+# Keep the context small: without this file every module's target/ directory
+# (~77M each, ~1.8G total) is shipped to the daemon on every build, and stale
+# target/ trees can shadow the freshly compiled classes the Dockerfile builds.
+
+# Build output — the image is built from source inside the build stage.
+**/target/
+**/build/
+
+# Version control
+**/.git/
+**/.gitattributes
+**/.gitignore
+
+# IDE / editor metadata
+**/.idea/
+**/.vscode/
+**/.settings/
+**/.project
+**/.classpath
+**/.factorypath
+**/*.iml
+**/*.iws
+**/*.ipr
+
+# Maven wrapper jar is re-resolved by mvnw; the scripts are COPYed explicitly.
+**/.mvn/wrapper/maven-wrapper.jar
+
+# Containers, infra and docs are not needed to compile the jar.
+deployments/
+monolith-src/
+hurl/
+images/
+static/
+**/*.md
+HELP.md

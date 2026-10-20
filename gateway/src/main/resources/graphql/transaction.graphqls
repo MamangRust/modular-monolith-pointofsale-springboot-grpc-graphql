@@ -1,0 +1,202 @@
+"A transaction record (active, not deleted)."
+type Transaction {
+    id: Long
+    orderId: Int
+    merchantId: Int
+    paymentMethod: String
+    amount: Int
+    paymentStatus: String
+    createdAt: String
+    updatedAt: String
+}
+
+"A transaction record including its soft-delete timestamp."
+type TransactionDeleteAt {
+    id: Long
+    orderId: Int
+    merchantId: Int
+    paymentMethod: String
+    amount: Int
+    paymentStatus: String
+    createdAt: String
+    updatedAt: String
+    deletedAt: String
+}
+
+"Monthly amount-success aggregate."
+type TransactionMonthlyAmountSuccess {
+    year: String
+    month: String
+    totalSuccess: Int
+    totalAmount: Long
+}
+
+"Yearly amount-success aggregate."
+type TransactionYearlyAmountSuccess {
+    year: String
+    totalSuccess: Int
+    totalAmount: Long
+}
+
+"Monthly amount-failed aggregate."
+type TransactionMonthlyAmountFailed {
+    year: String
+    month: String
+    totalFailed: Int
+    totalAmount: Long
+}
+
+"Yearly amount-failed aggregate."
+type TransactionYearlyAmountFailed {
+    year: String
+    totalFailed: Int
+    totalAmount: Long
+}
+
+"Monthly payment-method aggregate."
+type TransactionMonthlyMethod {
+    month: String
+    paymentMethod: String
+    totalTransactions: Int
+    totalAmount: Long
+}
+
+"Yearly payment-method aggregate."
+type TransactionYearlyMethod {
+    year: String
+    paymentMethod: String
+    totalTransactions: Int
+    totalAmount: Long
+}
+
+type TransactionApiResponse {
+    status: String
+    message: String
+    data: Transaction
+}
+
+type TransactionDeleteAtApiResponse {
+    status: String
+    message: String
+    data: TransactionDeleteAt
+}
+
+type TransactionListPaginationResponse {
+    status: String
+    message: String
+    data: [Transaction]
+    pagination: PageInfo
+}
+
+type TransactionDeleteAtListPaginationResponse {
+    status: String
+    message: String
+    data: [TransactionDeleteAt]
+    pagination: PageInfo
+}
+
+type TransactionMonthlyAmountSuccessListResponse {
+    status: String
+    message: String
+    data: [TransactionMonthlyAmountSuccess]
+}
+
+type TransactionYearlyAmountSuccessListResponse {
+    status: String
+    message: String
+    data: [TransactionYearlyAmountSuccess]
+}
+
+type TransactionMonthlyAmountFailedListResponse {
+    status: String
+    message: String
+    data: [TransactionMonthlyAmountFailed]
+}
+
+type TransactionYearlyAmountFailedListResponse {
+    status: String
+    message: String
+    data: [TransactionYearlyAmountFailed]
+}
+
+type TransactionMonthlyMethodListResponse {
+    status: String
+    message: String
+    data: [TransactionMonthlyMethod]
+}
+
+type TransactionYearlyMethodListResponse {
+    status: String
+    message: String
+    data: [TransactionYearlyMethod]
+}
+
+input CreateTransactionInput {
+    orderID: Int
+    merchantID: Int
+    paymentMethod: String
+    amount: Int
+}
+
+input UpdateTransactionInput {
+    transactionID: Int
+    orderID: Int
+    merchantID: Int
+    paymentMethod: String
+    amount: Int
+    paymentStatus: String
+}
+
+input TransactionMonthInput {
+    year: Int
+    month: Int
+}
+
+input TransactionYearInput {
+    year: Int
+}
+
+input TransactionMerchantMonthInput {
+    merchantId: Int
+    year: Int
+    month: Int
+}
+
+input TransactionMerchantYearInput {
+    merchantId: Int
+    year: Int
+}
+
+extend type Query {
+    transactions(input: PageInput): TransactionListPaginationResponse
+    transactionsActive(input: PageInput): TransactionDeleteAtListPaginationResponse
+    transactionsTrashed(input: PageInput): TransactionDeleteAtListPaginationResponse
+    transaction(id: Int!): TransactionApiResponse
+    transactionsByMerchant(merchantId: Int!, input: PageInput): TransactionListPaginationResponse
+    transactionMonthlySuccess(input: TransactionMonthInput): TransactionMonthlyAmountSuccessListResponse
+    transactionYearlySuccess(input: TransactionYearInput): TransactionYearlyAmountSuccessListResponse
+    transactionMonthlyFailed(input: TransactionMonthInput): TransactionMonthlyAmountFailedListResponse
+    transactionYearlyFailed(input: TransactionYearInput): TransactionYearlyAmountFailedListResponse
+    transactionMerchantMonthlySuccess(input: TransactionMerchantMonthInput): TransactionMonthlyAmountSuccessListResponse
+    transactionMerchantYearlySuccess(input: TransactionMerchantYearInput): TransactionYearlyAmountSuccessListResponse
+    transactionMerchantMonthlyFailed(input: TransactionMerchantMonthInput): TransactionMonthlyAmountFailedListResponse
+    transactionMerchantYearlyFailed(input: TransactionMerchantYearInput): TransactionYearlyAmountFailedListResponse
+    transactionMonthlyMethodSuccess(input: TransactionMonthInput): TransactionMonthlyMethodListResponse
+    transactionYearlyMethodSuccess(input: TransactionYearInput): TransactionYearlyMethodListResponse
+    transactionMonthlyMethodFailed(input: TransactionMonthInput): TransactionMonthlyMethodListResponse
+    transactionYearlyMethodFailed(input: TransactionYearInput): TransactionYearlyMethodListResponse
+    transactionMerchantMonthlyMethodSuccess(input: TransactionMerchantMonthInput): TransactionMonthlyMethodListResponse
+    transactionMerchantYearlyMethodSuccess(input: TransactionMerchantYearInput): TransactionYearlyMethodListResponse
+    transactionMerchantMonthlyMethodFailed(input: TransactionMerchantMonthInput): TransactionMonthlyMethodListResponse
+    transactionMerchantYearlyMethodFailed(input: TransactionMerchantYearInput): TransactionYearlyMethodListResponse
+}
+
+extend type Mutation {
+    createTransaction(input: CreateTransactionInput!): TransactionApiResponse
+    updateTransaction(input: UpdateTransactionInput!): TransactionApiResponse
+    trashedTransaction(id: Int!): TransactionDeleteAtApiResponse
+    restoreTransaction(id: Int!): TransactionDeleteAtApiResponse
+    deleteTransactionPermanent(id: Int!): BooleanApiResponse
+    restoreAllTransactions: BooleanApiResponse
+    deleteAllTransactionsPermanent: BooleanApiResponse
+}

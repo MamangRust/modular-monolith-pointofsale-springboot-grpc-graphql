@@ -1,0 +1,24 @@
+"A 64-bit signed integer represented as a JSON string or number."
+scalar Long
+
+"Pagination metadata mirroring the former REST `PaginationMeta` envelope."
+type PageInfo {
+    page: Int
+    pageSize: Int
+    totalItems: Long
+    totalPages: Int
+}
+
+"Generic boolean payload wrapper."
+type BooleanApiResponse {
+    status: String
+    message: String
+    data: Boolean
+}
+
+"Standard pagination input shared by list queries."
+input PageInput {
+    page: Int
+    pageSize: Int
+    search: String
+}

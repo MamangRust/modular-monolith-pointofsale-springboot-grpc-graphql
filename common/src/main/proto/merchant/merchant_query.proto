@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package pb.merchant;
+
+import "merchant/merchant.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.merchant";
+
+service MerchantQueryService {
+  rpc FindAll(FindAllMerchantRequest) returns (ApiResponsePaginationMerchant) {}
+  rpc FindById(FindByIdMerchantRequest) returns (ApiResponseMerchant) {}
+  rpc FindByUserId(FindByUserIdMerchantRequest) returns (ApiMerchantsResponse) {}
+  rpc FindByActive(FindAllMerchantRequest) returns (ApiResponsePaginationMerchantDeleteAt) {}
+  rpc FindByTrashed(FindAllMerchantRequest) returns (ApiResponsePaginationMerchantDeleteAt) {}
+}

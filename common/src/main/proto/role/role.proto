@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package pb.role;
+
+import "common/api.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.role";
+
+message FindAllRoleRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+  string search = 3;
+}
+
+message FindByIdRoleRequest {
+  int32 role_id = 1;
+}
+
+message FindByNameRoleRequest {
+  string name = 1;
+}
+
+message FindByUserIdRoleRequest {
+  int32 user_id = 1;
+}
+
+message RoleResponse {
+  int32 role_id = 1;
+  string name = 2;
+  string created_at = 3;
+  string updated_at = 4;
+}
+
+message RoleResponseDeleteAt {
+  int32 role_id = 1;
+  string name = 2;
+  string created_at = 3;
+  string updated_at = 4;
+  string deleted_at = 5;
+}
+
+message ApiResponseRole {
+  string status = 1;
+  string message = 2;
+  RoleResponse data = 3;
+}
+
+message ApiResponseRoleDeleteAt {
+  string status = 1;
+  string message = 2;
+  RoleResponseDeleteAt data = 3;
+}
+
+message ApiRolesResponse {
+  string status = 1;
+  string message = 2;
+  repeated RoleResponse data = 3;
+}
+
+message ApiResponseRoleAll {
+  string status = 1;
+  string message = 2;
+  bool success = 3;
+}
+
+message ApiResponsePaginationRole {
+  string status = 1;
+  string message = 2;
+  repeated RoleResponse data = 3;
+  pb.common.PaginationMeta pagination_meta = 4;
+}
+
+message ApiResponsePaginationRoleDeleteAt {
+  string status = 1;
+  string message = 2;
+  repeated RoleResponseDeleteAt data = 3;
+  pb.common.PaginationMeta pagination_meta = 4;
+}

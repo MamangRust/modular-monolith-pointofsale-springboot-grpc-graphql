@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package pb.cashier.stats;
+
+import "cashier/cashier.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.cashier.stats";
+
+service CashierTotalSalesService {
+  rpc FindMonthlyTotalSales(pb.cashier.FindYearMonthTotalSales) returns (pb.cashier.ApiResponseCashierMonthTotalSales) {}
+  rpc FindYearlyTotalSales(pb.cashier.FindYearTotalSales) returns (pb.cashier.ApiResponseCashierYearTotalSales) {}
+  rpc FindMonthlyTotalSalesById(pb.cashier.FindYearMonthTotalSalesById) returns (pb.cashier.ApiResponseCashierMonthTotalSales) {}
+  rpc FindYearlyTotalSalesById(pb.cashier.FindYearTotalSalesById) returns (pb.cashier.ApiResponseCashierYearTotalSales) {}
+  rpc FindMonthlyTotalSalesByMerchant(pb.cashier.FindYearMonthTotalSalesByMerchant) returns (pb.cashier.ApiResponseCashierMonthTotalSales) {}
+  rpc FindYearlyTotalSalesByMerchant(pb.cashier.FindYearTotalSalesByMerchant) returns (pb.cashier.ApiResponseCashierYearTotalSales) {}
+}

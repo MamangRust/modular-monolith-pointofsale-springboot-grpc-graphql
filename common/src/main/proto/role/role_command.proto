@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package pb.role;
+
+import "google/protobuf/empty.proto";
+
+import "role/role.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.role";
+
+message CreateRoleRequest {
+  string name = 1;
+}
+
+message UpdateRoleRequest {
+  int32 role_id = 1;
+  string name = 2;
+}
+
+service RoleCommandService {
+  rpc CreateRole(CreateRoleRequest) returns (ApiResponseRole) {}
+  rpc UpdateRole(UpdateRoleRequest) returns (ApiResponseRole) {}
+  rpc TrashedRole(FindByIdRoleRequest) returns (ApiResponseRoleDeleteAt) {}
+  rpc RestoreRole(FindByIdRoleRequest) returns (ApiResponseRoleDeleteAt) {}
+  rpc DeleteRolePermanent(FindByIdRoleRequest) returns (ApiResponseRoleAll) {}
+  rpc RestoreAllRole(google.protobuf.Empty) returns (ApiResponseRoleAll) {}
+  rpc DeleteAllRolePermanent(google.protobuf.Empty) returns (ApiResponseRoleAll) {}
+}

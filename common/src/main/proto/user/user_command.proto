@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package pb.user;
+
+import "google/protobuf/empty.proto";
+
+import "user/user.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.user";
+
+message CreateUserRequest {
+  string username = 1;
+  string firstname = 2;
+  string lastname = 3;
+  string email = 4;
+  string password = 5;
+  string confirm_password = 6;
+}
+
+message UpdateUserRequest {
+  int32 id = 1;
+  string username = 2;
+  string firstname = 3;
+  string lastname = 4;
+  string email = 5;
+  string password = 6;
+  string confirm_password = 7;
+}
+
+message VerifyPasswordRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message VerifyPasswordResponse {
+  bool valid = 1;
+  int32 user_id = 2;
+  string username = 3;
+  string message = 4;
+}
+
+service UserCommandService {
+  rpc Create(CreateUserRequest) returns (ApiResponseUser) {}
+  rpc Update(UpdateUserRequest) returns (ApiResponseUser) {}
+  rpc TrashedUser(FindByIdUserRequest) returns (ApiResponseUserDeleteAt) {}
+  rpc RestoreUser(FindByIdUserRequest) returns (ApiResponseUserDeleteAt) {}
+  rpc DeleteUserPermanent(FindByIdUserRequest) returns (ApiResponseUserAll) {}
+  rpc RestoreAllUser(google.protobuf.Empty) returns (ApiResponseUserAll) {}
+  rpc DeleteAllUserPermanent(google.protobuf.Empty) returns (ApiResponseUserAll) {}
+  rpc VerifyPassword(VerifyPasswordRequest) returns (VerifyPasswordResponse) {}
+}

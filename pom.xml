@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.5.6</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.sanedge</groupId>
+	<artifactId>pointofsale</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>pointofsale</name>
+	<description>Modular gRPC + GraphQL Point of Sale (Spring Boot, domain-module layout)</description>
+
+	<properties>
+		<java.version>21</java.version>
+		<grpc.version>1.70.0</grpc.version>
+		<protobuf.version>4.29.3</protobuf.version>
+		<protoc-gen.version>3.25.5</protoc-gen.version>
+		<protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
+		<os-maven-plugin.version>1.7.1</os-maven-plugin.version>
+		<springdoc.version>2.2.0</springdoc.version>
+		<java-jwt.version>4.4.0</java-jwt.version>
+		<jakarta-annotation.version>2.1.1</jakarta-annotation.version>
+		<resilience4j.version>2.2.0</resilience4j.version>
+		<graphql-extended-scalars.version>24.0</graphql-extended-scalars.version>
+	</properties>
+
+	<modules>
+		<module>common</module>
+		<module>auth</module>
+		<module>user</module>
+		<module>role</module>
+		<module>merchant</module>
+		<module>cashier</module>
+		<module>category</module>
+		<module>product</module>
+		<module>order</module>
+		<module>order-item</module>
+		<module>transaction</module>
+		<module>gateway</module>
+		<module>email-service</module>
+		<module>db-migration</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>io.grpc</groupId>
+				<artifactId>grpc-bom</artifactId>
+				<version>${grpc.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.google.protobuf</groupId>
+				<artifactId>protobuf-java</artifactId>
+				<version>${protobuf.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+				<version>${springdoc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.auth0</groupId>
+				<artifactId>java-jwt</artifactId>
+				<version>${java-jwt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>jakarta.annotation</groupId>
+				<artifactId>jakarta.annotation-api</artifactId>
+				<version>${jakarta-annotation.version}</version>
+			</dependency>
+			<!-- resilience4j: dependency-guard (circuit breaker + bulkhead) -->
+			<dependency>
+				<groupId>io.github.resilience4j</groupId>
+				<artifactId>resilience4j-bom</artifactId>
+				<version>${resilience4j.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- internal modules -->
+			<dependency><groupId>com.sanedge</groupId><artifactId>common</artifactId><version>${project.version}</version></dependency>
+			<dependency><groupId>com.sanedge</groupId><artifactId>auth</artifactId><version>${project.version}</version></dependency>
+			<dependency><groupId>com.sanedge</groupId><artifactId>user</artifactId><version>${project.version}</version></dependency>
+			<dependency><groupId>com.sanedge</groupId><artifactId>role</artifactId><version>${project.version}</version></dependency>
+			<dependency><groupId>com.sanedge</groupId><artifactId>merchant</artifactId><version>${project.version}</version></dependency>
+			<dependency><groupId>com.sanedge</groupId><artifactId>cashier</artifactId><version>${project.version}</version></dependency>
+			<dependency><groupId>com.sanedge</groupId><artifactId>category</artifactId><version>${project.version}</version></dependency>
+			<dependency><groupId>com.sanedge</groupId><artifactId>product</artifactId><version>${project.version}</version></dependency>
+			<dependency><groupId>com.sanedge</groupId><artifactId>order</artifactId><version>${project.version}</version></dependency>
+			<dependency><groupId>com.sanedge</groupId><artifactId>order-item</artifactId><version>${project.version}</version></dependency>
+			<dependency><groupId>com.sanedge</groupId><artifactId>transaction</artifactId><version>${project.version}</version></dependency>
+			<dependency><groupId>com.sanedge</groupId><artifactId>email-service</artifactId><version>${project.version}</version></dependency>
+			<dependency><groupId>com.sanedge</groupId><artifactId>db-migration</artifactId><version>${project.version}</version></dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.xolstice.maven.plugins</groupId>
+					<artifactId>protobuf-maven-plugin</artifactId>
+					<version>${protobuf-maven-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<annotationProcessorPaths>
+							<path>
+								<groupId>org.projectlombok</groupId>
+								<artifactId>lombok</artifactId>
+								<version>${lombok.version}</version>
+							</path>
+						</annotationProcessorPaths>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+</project>

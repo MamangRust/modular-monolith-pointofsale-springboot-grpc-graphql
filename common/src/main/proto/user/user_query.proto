@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package pb.user;
+
+import "user/user.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.user";
+
+service UserQueryService {
+  rpc FindAll(FindAllUserRequest) returns (ApiResponsePaginationUser) {}
+  rpc FindById(FindByIdUserRequest) returns (ApiResponseUser) {}
+  rpc FindByEmail(FindByEmailUserRequest) returns (ApiResponseUser) {}
+  rpc FindByUsername(FindByUsernameUserRequest) returns (ApiResponseUser) {}
+  rpc FindByActive(FindAllUserRequest) returns (ApiResponsePaginationUserDeleteAt) {}
+  rpc FindByTrashed(FindAllUserRequest) returns (ApiResponsePaginationUserDeleteAt) {}
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package pb.order.stats;
+
+import "order/order.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.order.stats";
+
+service OrderSoldoutService {
+  rpc FindMonthlyOrders(pb.order.FindYearMonthOrder) returns (pb.order.ApiResponseOrderMonthly) {}
+  rpc FindYearlyOrders(pb.order.FindYearOrder) returns (pb.order.ApiResponseOrderYearly) {}
+  rpc FindMonthlyOrdersByMerchant(pb.order.FindYearMonthOrderByMerchant) returns (pb.order.ApiResponseOrderMonthly) {}
+  rpc FindYearlyOrdersByMerchant(pb.order.FindYearOrderByMerchant) returns (pb.order.ApiResponseOrderYearly) {}
+}

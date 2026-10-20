@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package pb.cashier;
+
+import "google/protobuf/empty.proto";
+
+import "cashier/cashier.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.cashier";
+
+service CashierCommandService {
+  rpc CreateCashier(CreateCashierRequest) returns (ApiResponseCashier) {}
+  rpc UpdateCashier(UpdateCashierRequest) returns (ApiResponseCashier) {}
+  rpc TrashedCashier(FindByIdCashierRequest) returns (ApiResponseCashierDeleteAt) {}
+  rpc RestoreCashier(FindByIdCashierRequest) returns (ApiResponseCashierDeleteAt) {}
+  rpc DeleteCashierPermanent(FindByIdCashierRequest) returns (ApiResponseCashierAll) {}
+  rpc RestoreAllCashier(google.protobuf.Empty) returns (ApiResponseCashierAll) {}
+  rpc DeleteAllCashierPermanent(google.protobuf.Empty) returns (ApiResponseCashierAll) {}
+}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package pb.product;
+
+import "product/product.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.product";
+
+service ProductQueryService {
+  rpc FindAll(FindAllProductRequest) returns (ApiResponsePaginationProduct) {}
+  rpc FindById(FindByIdProductRequest) returns (ApiResponseProduct) {}
+  rpc FindByMerchant(FindByMerchantProductRequest) returns (ApiResponsePaginationProduct) {}
+  rpc FindByCategory(FindByCategoryProductRequest) returns (ApiResponsePaginationProduct) {}
+  rpc FindByActive(FindAllProductRequest) returns (ApiResponsePaginationProductDeleteAt) {}
+  rpc FindByTrashed(FindAllProductRequest) returns (ApiResponsePaginationProductDeleteAt) {}
+}

@@ -1,0 +1,92 @@
+"A merchant record (active, not deleted)."
+type Merchant {
+    id: Long
+    userId: Int
+    name: String
+    description: String
+    address: String
+    contactEmail: String
+    contactPhone: String
+    status: String
+    createdAt: String
+    updatedAt: String
+}
+
+"A merchant record including its soft-delete timestamp."
+type MerchantDeleteAt {
+    id: Long
+    userId: Int
+    name: String
+    description: String
+    address: String
+    contactEmail: String
+    contactPhone: String
+    status: String
+    createdAt: String
+    updatedAt: String
+    deletedAt: String
+}
+
+type MerchantApiResponse {
+    status: String
+    message: String
+    data: Merchant
+}
+
+type MerchantDeleteAtApiResponse {
+    status: String
+    message: String
+    data: MerchantDeleteAt
+}
+
+type MerchantListPaginationResponse {
+    status: String
+    message: String
+    data: [Merchant]
+    pagination: PageInfo
+}
+
+type MerchantDeleteAtListPaginationResponse {
+    status: String
+    message: String
+    data: [MerchantDeleteAt]
+    pagination: PageInfo
+}
+
+input CreateMerchantInput {
+    userId: Int
+    name: String
+    description: String
+    address: String
+    contactEmail: String
+    contactPhone: String
+    status: String
+}
+
+input UpdateMerchantInput {
+    merchantId: Int
+    userId: Int
+    name: String
+    description: String
+    address: String
+    contactEmail: String
+    contactPhone: String
+    status: String
+}
+
+extend type Query {
+    merchants(input: PageInput): MerchantListPaginationResponse
+    merchantsActive(input: PageInput): MerchantDeleteAtListPaginationResponse
+    merchantsTrashed(input: PageInput): MerchantDeleteAtListPaginationResponse
+    merchant(id: Int!): MerchantApiResponse
+}
+
+extend type Mutation {
+    createMerchant(input: CreateMerchantInput!): MerchantApiResponse
+    updateMerchant(input: UpdateMerchantInput!): MerchantApiResponse
+    trashedMerchant(id: Int!): MerchantDeleteAtApiResponse
+    restoreMerchant(id: Int!): MerchantDeleteAtApiResponse
+    deleteMerchantPermanent(id: Int!): BooleanApiResponse
+    restoreAllMerchants: BooleanApiResponse
+    deleteAllMerchantsPermanent: BooleanApiResponse
+}

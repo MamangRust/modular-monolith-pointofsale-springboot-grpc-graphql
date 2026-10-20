@@ -1,0 +1,136 @@
+"A product record (active, not deleted)."
+type Product {
+    id: Long
+    merchantId: Int
+    categoryId: Int
+    name: String
+    description: String
+    price: Int
+    countInStock: Int
+    brand: String
+    weight: Int
+    slugProduct: String
+    imageProduct: String
+    createdAt: String
+    updatedAt: String
+}
+
+"A product record including its soft-delete timestamp."
+type ProductDeleteAt {
+    id: Long
+    merchantId: Int
+    categoryId: Int
+    name: String
+    description: String
+    price: Int
+    countInStock: Int
+    brand: String
+    weight: Int
+    rating: Float
+    slugProduct: String
+    imageProduct: String
+    createdAt: String
+    updatedAt: String
+    deletedAt: String
+}
+
+type ProductApiResponse {
+    status: String
+    message: String
+    data: Product
+}
+
+type ProductDeleteAtApiResponse {
+    status: String
+    message: String
+    data: ProductDeleteAt
+}
+
+type ProductListPaginationResponse {
+    status: String
+    message: String
+    data: [Product]
+    pagination: PageInfo
+}
+
+type ProductDeleteAtListPaginationResponse {
+    status: String
+    message: String
+    data: [ProductDeleteAt]
+    pagination: PageInfo
+}
+
+"Create a product. The image is uploaded inline as a Base64-encoded string."
+input CreateProductInput {
+    merchantId: Int
+    categoryId: Int
+    name: String
+    description: String
+    price: Int
+    countInStock: Int
+    brand: String
+    weight: Int
+    rating: Int
+    slugProduct: String
+    "Base64-encoded image contents (without data URI prefix)."
+    imageProductBase64: String
+    "Original file name; its extension determines the stored file name."
+    imageProductFilename: String
+}
+
+"Update a product. The image is uploaded inline as a Base64-encoded string."
+input UpdateProductInput {
+    productId: Int
+    merchantId: Int
+    categoryId: Int
+    name: String
+    description: String
+    price: Int
+    countInStock: Int
+    brand: String
+    weight: Int
+    rating: Int
+    slugProduct: String
+    "Base64-encoded image contents (without data URI prefix). Optional."
+    imageProductBase64: String
+    "Original file name; its extension determines the stored file name."
+    imageProductFilename: String
+}
+
+input ProductMerchantFilterInput {
+    merchantId: Int
+    search: String
+    categoryId: Int
+    minPrice: Int
+    maxPrice: Int
+    page: Int
+    pageSize: Int
+}
+
+input ProductCategoryFilterInput {
+    categoryName: String
+    search: String
+    minPrice: Int
+    maxPrice: Int
+    page: Int
+    pageSize: Int
+}
+
+extend type Query {
+    products(input: PageInput): ProductListPaginationResponse
+    product(id: Int!): ProductApiResponse
+    productsByMerchant(input: ProductMerchantFilterInput): ProductListPaginationResponse
+    productsByCategory(input: ProductCategoryFilterInput): ProductListPaginationResponse
+    productsActive(input: PageInput): ProductDeleteAtListPaginationResponse
+    productsTrashed(input: PageInput): ProductDeleteAtListPaginationResponse
+}
+
+extend type Mutation {
+    createProduct(input: CreateProductInput!): ProductApiResponse
+    updateProduct(input: UpdateProductInput!): ProductApiResponse
+    trashedProduct(id: Int!): ProductDeleteAtApiResponse
+    restoreProduct(id: Int!): ProductDeleteAtApiResponse
+    deleteProductPermanent(id: Int!): BooleanApiResponse
+    restoreAllProducts: BooleanApiResponse
+    deleteAllProductsPermanent: BooleanApiResponse
+}

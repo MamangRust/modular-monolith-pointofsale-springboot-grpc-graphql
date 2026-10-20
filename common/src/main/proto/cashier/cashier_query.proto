@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package pb.cashier;
+
+import "cashier/cashier.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.cashier";
+
+service CashierQueryService {
+  rpc FindAll(FindAllCashierRequest) returns (ApiResponsePaginationCashier) {}
+  rpc FindById(FindByIdCashierRequest) returns (ApiResponseCashier) {}
+  rpc FindByMerchant(FindByMerchantCashierRequest) returns (ApiResponsePaginationCashier) {}
+  rpc FindByActive(FindAllCashierRequest) returns (ApiResponsePaginationCashierDeleteAt) {}
+  rpc FindByTrashed(FindAllCashierRequest) returns (ApiResponsePaginationCashierDeleteAt) {}
+}

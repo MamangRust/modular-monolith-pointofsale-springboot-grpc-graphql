@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package pb.order_item;
+
+import "common/api.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.order_item";
+
+message FindByOrderOrderItemRequest {
+  int32 order_id = 1;
+}
+
+message FindByIdOrderItemRequest {
+  int32 order_item_id = 1;
+}
+
+message CreateOrderItemRequest {
+  int32 order_id = 1;
+  int32 product_id = 2;
+  int32 quantity = 3;
+  int32 price = 4;
+}
+
+message UpdateOrderItemRequest {
+  int32 order_item_id = 1;
+  int32 order_id = 2;
+  int32 product_id = 3;
+  int32 quantity = 4;
+  int32 price = 5;
+}
+
+message OrderItemResponse {
+  int32 order_item_id = 1;
+  int32 order_id = 2;
+  int32 product_id = 3;
+  int32 quantity = 4;
+  int32 price = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message OrderItemResponseDeleteAt {
+  int32 order_item_id = 1;
+  int32 order_id = 2;
+  int32 product_id = 3;
+  int32 quantity = 4;
+  int32 price = 5;
+  string created_at = 6;
+  string updated_at = 7;
+  string deleted_at = 8;
+}
+
+message ApiResponseOrderItem {
+  string status = 1;
+  string message = 2;
+  OrderItemResponse data = 3;
+}
+
+message ApiOrderItemsResponse {
+  string status = 1;
+  string message = 2;
+  repeated OrderItemResponse data = 3;
+}

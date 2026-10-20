@@ -1,0 +1,137 @@
+syntax = "proto3";
+
+package pb.product;
+
+import "common/api.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.product";
+
+message FindAllProductRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+  string search = 3;
+}
+
+message FindByMerchantProductRequest {
+  int32 merchant_id = 1;
+  string search = 2;
+  int32 category_id = 3;
+  int32 min_price = 4;
+  int32 max_price = 5;
+  int32 page = 6;
+  int32 page_size = 7;
+}
+
+message FindByCategoryProductRequest {
+  string category_name = 1;
+  string search = 2;
+  int32 min_price = 3;
+  int32 max_price = 4;
+  int32 page = 5;
+  int32 page_size = 6;
+}
+
+message FindByIdProductRequest {
+  int32 product_id = 1;
+}
+
+message ProductResponse {
+  int32 product_id = 1;
+  int32 merchant_id = 2;
+  int32 category_id = 3;
+  string name = 4;
+  string description = 5;
+  int32 price = 6;
+  int32 count_in_stock = 7;
+  string brand = 8;
+  string weight = 9;
+  float rating = 10;
+  string slug_product = 11;
+  string image_product = 12;
+  string barcode = 13;
+  string created_at = 14;
+  string updated_at = 15;
+}
+
+message ProductResponseDeleteAt {
+  int32 product_id = 1;
+  int32 merchant_id = 2;
+  int32 category_id = 3;
+  string name = 4;
+  string description = 5;
+  int32 price = 6;
+  int32 count_in_stock = 7;
+  string brand = 8;
+  string weight = 9;
+  float rating = 10;
+  string slug_product = 11;
+  string image_product = 12;
+  string barcode = 13;
+  string created_at = 14;
+  string updated_at = 15;
+  string deleted_at = 16;
+}
+
+message CreateProductRequest {
+  int32 merchant_id = 1;
+  int32 category_id = 2;
+  string name = 3;
+  string description = 4;
+  int32 price = 5;
+  int32 count_in_stock = 6;
+  string brand = 7;
+  string weight = 8;
+  float rating = 9;
+  string slug_product = 10;
+  string image_product = 11;
+  string barcode = 12;
+}
+
+message UpdateProductRequest {
+  int32 product_id = 1;
+  int32 merchant_id = 2;
+  int32 category_id = 3;
+  string name = 4;
+  string description = 5;
+  int32 price = 6;
+  int32 count_in_stock = 7;
+  string brand = 8;
+  string weight = 9;
+  float rating = 10;
+  string slug_product = 11;
+  string image_product = 12;
+  string barcode = 13;
+}
+
+message ApiResponseProduct {
+  string status = 1;
+  string message = 2;
+  ProductResponse data = 3;
+}
+
+message ApiResponseProductDeleteAt {
+  string status = 1;
+  string message = 2;
+  ProductResponseDeleteAt data = 3;
+}
+
+message ApiResponseProductAll {
+  string status = 1;
+  string message = 2;
+  bool success = 3;
+}
+
+message ApiResponsePaginationProduct {
+  string status = 1;
+  string message = 2;
+  repeated ProductResponse data = 3;
+  pb.common.PaginationMeta pagination_meta = 4;
+}
+
+message ApiResponsePaginationProductDeleteAt {
+  string status = 1;
+  string message = 2;
+  repeated ProductResponseDeleteAt data = 3;
+  pb.common.PaginationMeta pagination_meta = 4;
+}

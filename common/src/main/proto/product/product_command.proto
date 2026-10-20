@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package pb.product;
+
+import "google/protobuf/empty.proto";
+
+import "product/product.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.product";
+
+service ProductCommandService {
+  rpc CreateProduct(CreateProductRequest) returns (ApiResponseProduct) {}
+  rpc UpdateProduct(UpdateProductRequest) returns (ApiResponseProduct) {}
+  rpc TrashedProduct(FindByIdProductRequest) returns (ApiResponseProductDeleteAt) {}
+  rpc RestoreProduct(FindByIdProductRequest) returns (ApiResponseProductDeleteAt) {}
+  rpc DeleteProductPermanent(FindByIdProductRequest) returns (ApiResponseProductAll) {}
+  rpc RestoreAllProduct(google.protobuf.Empty) returns (ApiResponseProductAll) {}
+  rpc DeleteAllProductPermanent(google.protobuf.Empty) returns (ApiResponseProductAll) {}
+}

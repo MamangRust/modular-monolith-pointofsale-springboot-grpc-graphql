@@ -1,0 +1,178 @@
+"A cashier record (active, not deleted)."
+type Cashier {
+    id: Int
+    merchantId: Int
+    name: String
+    createdAt: String
+    updatedAt: String
+}
+
+"A cashier record including its soft-delete timestamp."
+type CashierDeleteAt {
+    id: Int
+    merchantId: Int
+    name: String
+    createdAt: String
+    updatedAt: String
+    deletedAt: String
+}
+
+"Monthly sales aggregate for a cashier."
+type CashierMonthSales {
+    month: String
+    cashierId: Int
+    cashierName: String
+    orderCount: Int
+    totalSales: Long
+}
+
+"Yearly sales aggregate for a cashier."
+type CashierYearSales {
+    year: String
+    cashierId: Int
+    cashierName: String
+    orderCount: Int
+    totalSales: Long
+}
+
+"Monthly total sales aggregate."
+type CashierMonthTotalSales {
+    year: String
+    month: String
+    totalSales: Long
+}
+
+"Yearly total sales aggregate."
+type CashierYearTotalSales {
+    year: String
+    totalSales: Long
+}
+
+type CashierApiResponse {
+    status: String
+    message: String
+    data: Cashier
+}
+
+type CashierDeleteAtApiResponse {
+    status: String
+    message: String
+    data: CashierDeleteAt
+}
+
+type CashierListPaginationResponse {
+    status: String
+    message: String
+    data: [Cashier]
+    pagination: PageInfo
+}
+
+type CashierDeleteAtListPaginationResponse {
+    status: String
+    message: String
+    data: [CashierDeleteAt]
+    pagination: PageInfo
+}
+
+type CashierMonthSalesListResponse {
+    status: String
+    message: String
+    data: [CashierMonthSales]
+}
+
+type CashierYearSalesListResponse {
+    status: String
+    message: String
+    data: [CashierYearSales]
+}
+
+type CashierMonthTotalSalesListResponse {
+    status: String
+    message: String
+    data: [CashierMonthTotalSales]
+}
+
+type CashierYearTotalSalesListResponse {
+    status: String
+    message: String
+    data: [CashierYearTotalSales]
+}
+
+input CreateCashierInput {
+    merchantId: Int
+    userId: Int
+    name: String
+}
+
+input UpdateCashierInput {
+    cashierId: Int
+    name: String
+}
+
+input FindCashierMerchantInput {
+    merchantId: Int
+    page: Int
+    pageSize: Int
+    search: String
+}
+
+input MonthInput {
+    year: Int
+    month: Int
+}
+
+input YearInput {
+    year: Int
+}
+
+input CashierMonthInput {
+    cashierId: Int
+    year: Int
+}
+
+input CashierMerchantMonthInput {
+    merchantId: Int
+    year: Int
+}
+
+input CashierMonthTotalInput {
+    cashierId: Int
+    year: Int
+    month: Int
+}
+
+input CashierMerchantMonthTotalInput {
+    merchantId: Int
+    year: Int
+    month: Int
+}
+
+extend type Query {
+    cashiers(input: PageInput): CashierListPaginationResponse
+    cashier(id: Int!): CashierApiResponse
+    cashiersActive(input: PageInput): CashierDeleteAtListPaginationResponse
+    cashiersTrashed(input: PageInput): CashierDeleteAtListPaginationResponse
+    cashiersByMerchant(input: FindCashierMerchantInput): CashierListPaginationResponse
+    cashierMonthSales(input: YearInput): CashierMonthSalesListResponse
+    cashierYearSales(input: YearInput): CashierYearSalesListResponse
+    cashierMonthTotalSales(input: MonthInput): CashierMonthTotalSalesListResponse
+    cashierYearTotalSales(input: YearInput): CashierYearTotalSalesListResponse
+    cashierMyMonthSales(input: CashierMonthInput): CashierMonthSalesListResponse
+    cashierMyYearSales(input: CashierMonthInput): CashierYearSalesListResponse
+    cashierMyMonthTotalSales(input: CashierMonthTotalInput): CashierMonthTotalSalesListResponse
+    cashierMyYearTotalSales(input: CashierMonthInput): CashierYearTotalSalesListResponse
+    cashierMerchantMonthSales(input: CashierMerchantMonthInput): CashierMonthSalesListResponse
+    cashierMerchantYearSales(input: CashierMerchantMonthInput): CashierYearSalesListResponse
+    cashierMerchantMonthTotalSales(input: CashierMerchantMonthTotalInput): CashierMonthTotalSalesListResponse
+    cashierMerchantYearTotalSales(input: CashierMerchantMonthInput): CashierYearTotalSalesListResponse
+}
+
+extend type Mutation {
+    createCashier(input: CreateCashierInput!): CashierApiResponse
+    updateCashier(input: UpdateCashierInput!): CashierApiResponse
+    trashedCashier(id: Int!): CashierDeleteAtApiResponse
+    restoreCashier(id: Int!): CashierDeleteAtApiResponse
+    deleteCashierPermanent(id: Int!): BooleanApiResponse
+    restoreAllCashiers: BooleanApiResponse
+    deleteAllCashiersPermanent: BooleanApiResponse
+}

@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package pb.order;
+
+import "google/protobuf/empty.proto";
+
+import "order/order.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.order";
+
+service OrderCommandService {
+  rpc CreateOrder(CreateOrderRequest) returns (ApiResponseOrder) {}
+  rpc UpdateOrder(UpdateOrderRequest) returns (ApiResponseOrder) {}
+  rpc TrashedOrder(FindByIdOrderRequest) returns (ApiResponseOrderDeleteAt) {}
+  rpc RestoreOrder(FindByIdOrderRequest) returns (ApiResponseOrderDeleteAt) {}
+  rpc DeleteOrderPermanent(FindByIdOrderRequest) returns (ApiResponseOrderAll) {}
+  rpc RestoreAllOrder(google.protobuf.Empty) returns (ApiResponseOrderAll) {}
+  rpc DeleteAllOrderPermanent(google.protobuf.Empty) returns (ApiResponseOrderAll) {}
+}

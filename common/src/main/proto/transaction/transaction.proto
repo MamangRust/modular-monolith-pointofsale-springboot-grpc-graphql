@@ -1,0 +1,198 @@
+syntax = "proto3";
+
+package pb.transaction;
+
+import "common/api.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.transaction";
+
+message FindAllTransactionRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+  string search = 3;
+}
+
+message FindByMerchantTransactionRequest {
+  int32 merchant_id = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+  string search = 4;
+}
+
+message FindByIdTransactionRequest {
+  int32 transaction_id = 1;
+}
+
+message FindByOrderTransactionRequest {
+  int32 order_id = 1;
+}
+
+message TransactionResponse {
+  int32 transaction_id = 1;
+  int32 order_id = 2;
+  int32 merchant_id = 3;
+  string payment_method = 4;
+  int32 amount = 5;
+  int32 change_amount = 6;
+  string payment_status = 7;
+  string created_at = 8;
+  string updated_at = 9;
+}
+
+message TransactionResponseDeleteAt {
+  int32 transaction_id = 1;
+  int32 order_id = 2;
+  int32 merchant_id = 3;
+  string payment_method = 4;
+  int32 amount = 5;
+  int32 change_amount = 6;
+  string payment_status = 7;
+  string created_at = 8;
+  string updated_at = 9;
+  string deleted_at = 10;
+}
+
+message CreateTransactionRequest {
+  int32 order_id = 1;
+  int32 merchant_id = 2;
+  string payment_method = 3;
+  int32 amount = 4;
+}
+
+message UpdateTransactionRequest {
+  int32 transaction_id = 1;
+  int32 order_id = 2;
+  int32 merchant_id = 3;
+  string payment_method = 4;
+  int32 amount = 5;
+  string payment_status = 6;
+}
+
+message TransactionMonthlyAmountSuccessResponse {
+  string year = 1;
+  string month = 2;
+  int32 total_success = 3;
+  int64 total_amount = 4;
+}
+
+message TransactionYearlyAmountSuccessResponse {
+  string year = 1;
+  int32 total_success = 2;
+  int64 total_amount = 3;
+}
+
+message TransactionMonthlyAmountFailedResponse {
+  string year = 1;
+  string month = 2;
+  int32 total_failed = 3;
+  int64 total_amount = 4;
+}
+
+message TransactionYearlyAmountFailedResponse {
+  string year = 1;
+  int32 total_failed = 2;
+  int64 total_amount = 3;
+}
+
+message TransactionMonthlyMethodResponse {
+  string month = 1;
+  string payment_method = 2;
+  int32 total_transactions = 3;
+  int64 total_amount = 4;
+}
+
+message TransactionYearlyMethodResponse {
+  string year = 1;
+  string payment_method = 2;
+  int32 total_transactions = 3;
+  int64 total_amount = 4;
+}
+
+message FindYearMonthTransaction {
+  int32 year = 1;
+  int32 month = 2;
+}
+
+message FindYearTransaction {
+  int32 year = 1;
+}
+
+message FindYearMonthTransactionByMerchant {
+  int32 merchant_id = 1;
+  int32 year = 2;
+  int32 month = 3;
+}
+
+message FindYearTransactionByMerchant {
+  int32 merchant_id = 1;
+  int32 year = 2;
+}
+
+message ApiResponseTransaction {
+  string status = 1;
+  string message = 2;
+  TransactionResponse data = 3;
+}
+
+message ApiResponseTransactionDeleteAt {
+  string status = 1;
+  string message = 2;
+  TransactionResponseDeleteAt data = 3;
+}
+
+message ApiResponseTransactionAll {
+  string status = 1;
+  string message = 2;
+  bool success = 3;
+}
+
+message ApiResponsePaginationTransaction {
+  string status = 1;
+  string message = 2;
+  repeated TransactionResponse data = 3;
+  pb.common.PaginationMeta pagination_meta = 4;
+}
+
+message ApiResponsePaginationTransactionDeleteAt {
+  string status = 1;
+  string message = 2;
+  repeated TransactionResponseDeleteAt data = 3;
+  pb.common.PaginationMeta pagination_meta = 4;
+}
+
+message ApiResponseTransactionMonthlyAmountSuccess {
+  string status = 1;
+  string message = 2;
+  repeated TransactionMonthlyAmountSuccessResponse data = 3;
+}
+
+message ApiResponseTransactionYearlyAmountSuccess {
+  string status = 1;
+  string message = 2;
+  repeated TransactionYearlyAmountSuccessResponse data = 3;
+}
+
+message ApiResponseTransactionMonthlyAmountFailed {
+  string status = 1;
+  string message = 2;
+  repeated TransactionMonthlyAmountFailedResponse data = 3;
+}
+
+message ApiResponseTransactionYearlyAmountFailed {
+  string status = 1;
+  string message = 2;
+  repeated TransactionYearlyAmountFailedResponse data = 3;
+}
+
+message ApiResponseTransactionMonthlyMethod {
+  string status = 1;
+  string message = 2;
+  repeated TransactionMonthlyMethodResponse data = 3;
+}
+
+message ApiResponseTransactionYearlyMethod {
+  string status = 1;
+  string message = 2;
+  repeated TransactionYearlyMethodResponse data = 3;
+}

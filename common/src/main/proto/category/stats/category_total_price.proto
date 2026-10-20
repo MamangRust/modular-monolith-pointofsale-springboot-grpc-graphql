@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package pb.category.stats;
+
+import "category/category.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.category.stats";
+
+service CategoryTotalPriceService {
+  rpc FindMonthlyTotalPrices(pb.category.FindYearMonthTotalPrice) returns (pb.category.ApiResponseCategoryMonthTotalPrice) {}
+  rpc FindYearlyTotalPrices(pb.category.FindYearTotalPrice) returns (pb.category.ApiResponseCategoryYearTotalPrice) {}
+  rpc FindMonthlyTotalPricesById(pb.category.FindYearMonthTotalPriceById) returns (pb.category.ApiResponseCategoryMonthTotalPrice) {}
+  rpc FindYearlyTotalPricesById(pb.category.FindYearTotalPriceById) returns (pb.category.ApiResponseCategoryYearTotalPrice) {}
+  rpc FindMonthlyTotalPricesByMerchant(pb.category.FindYearMonthTotalPriceByMerchant) returns (pb.category.ApiResponseCategoryMonthTotalPrice) {}
+  rpc FindYearlyTotalPricesByMerchant(pb.category.FindYearTotalPriceByMerchant) returns (pb.category.ApiResponseCategoryYearTotalPrice) {}
+}

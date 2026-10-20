@@ -1,0 +1,185 @@
+"A category record (active, not deleted)."
+type Category {
+    id: Long
+    name: String
+    description: String
+    slugCategory: String
+    imageCategory: String
+    createdAt: String
+    updatedAt: String
+}
+
+"A category record including its soft-delete timestamp."
+type CategoryDeleteAt {
+    id: Long
+    name: String
+    description: String
+    slugCategory: String
+    imageCategory: String
+    createdAt: String
+    updatedAt: String
+    deletedAt: String
+}
+
+"Monthly price aggregate per category."
+type CategoryMonthPrice {
+    month: String
+    categoryId: Int
+    categoryName: String
+    orderCount: Int
+    itemsSold: Int
+    totalRevenue: Long
+}
+
+"Yearly price aggregate per category."
+type CategoryYearPrice {
+    year: String
+    categoryId: Int
+    categoryName: String
+    orderCount: Int
+    itemsSold: Int
+    totalRevenue: Long
+    uniqueProductsSold: Int
+}
+
+"Monthly total-price aggregate."
+type CategoryMonthTotalPrice {
+    year: String
+    month: String
+    totalRevenue: Long
+}
+
+"Yearly total-price aggregate."
+type CategoryYearTotalPrice {
+    year: String
+    totalRevenue: Long
+}
+
+type CategoryApiResponse {
+    status: String
+    message: String
+    data: Category
+}
+
+type CategoryDeleteAtApiResponse {
+    status: String
+    message: String
+    data: CategoryDeleteAt
+}
+
+type CategoryListResponse {
+    status: String
+    message: String
+    data: [Category]
+}
+
+type CategoryListPaginationResponse {
+    status: String
+    message: String
+    data: [Category]
+    pagination: PageInfo
+}
+
+type CategoryDeleteAtListPaginationResponse {
+    status: String
+    message: String
+    data: [CategoryDeleteAt]
+    pagination: PageInfo
+}
+
+type CategoryMonthPriceListResponse {
+    status: String
+    message: String
+    data: [CategoryMonthPrice]
+}
+
+type CategoryYearPriceListResponse {
+    status: String
+    message: String
+    data: [CategoryYearPrice]
+}
+
+type CategoryMonthTotalPriceListResponse {
+    status: String
+    message: String
+    data: [CategoryMonthTotalPrice]
+}
+
+type CategoryYearTotalPriceListResponse {
+    status: String
+    message: String
+    data: [CategoryYearTotalPrice]
+}
+
+input CreateCategoryInput {
+    name: String
+    description: String
+    slugCategory: String
+}
+
+input UpdateCategoryInput {
+    categoryId: Int
+    name: String
+    description: String
+    slugCategory: String
+}
+
+input MonthTotalPriceInput {
+    year: Int
+    month: Int
+}
+
+input YearPriceInput {
+    year: Int
+}
+
+input CategoryMonthTotalPriceInput {
+    categoryId: Int
+    year: Int
+    month: Int
+}
+
+input CategoryYearTotalPriceInput {
+    categoryId: Int
+    year: Int
+}
+
+input CategoryMerchantMonthTotalPriceInput {
+    merchantId: Int
+    year: Int
+    month: Int
+}
+
+input CategoryMerchantYearTotalPriceInput {
+    merchantId: Int
+    year: Int
+}
+
+extend type Query {
+    categories(input: PageInput): CategoryListPaginationResponse
+    categoriesActive(input: PageInput): CategoryDeleteAtListPaginationResponse
+    categoriesTrashed(input: PageInput): CategoryDeleteAtListPaginationResponse
+    category(id: Int!): CategoryApiResponse
+    categoryMonthTotalPrice(input: MonthTotalPriceInput): CategoryMonthTotalPriceListResponse
+    categoryYearTotalPrice(input: YearPriceInput): CategoryYearTotalPriceListResponse
+    categoryMerchantMonthTotalPrice(input: CategoryMerchantMonthTotalPriceInput): CategoryMonthTotalPriceListResponse
+    categoryMerchantYearTotalPrice(input: CategoryMerchantYearTotalPriceInput): CategoryYearTotalPriceListResponse
+    categoryMyMonthTotalPrice(input: CategoryMonthTotalPriceInput): CategoryMonthTotalPriceListResponse
+    categoryMyYearTotalPrice(input: CategoryYearTotalPriceInput): CategoryYearTotalPriceListResponse
+    categoryMonthPrice(input: YearPriceInput): CategoryMonthPriceListResponse
+    categoryYearPrice(input: YearPriceInput): CategoryYearPriceListResponse
+    categoryMerchantMonthPrice(input: CategoryMerchantYearTotalPriceInput): CategoryMonthPriceListResponse
+    categoryMerchantYearPrice(input: CategoryMerchantYearTotalPriceInput): CategoryYearPriceListResponse
+    categoryMyMonthPrice(input: CategoryYearTotalPriceInput): CategoryMonthPriceListResponse
+    categoryMyYearPrice(input: CategoryYearTotalPriceInput): CategoryYearPriceListResponse
+}
+
+extend type Mutation {
+    createCategory(input: CreateCategoryInput!): CategoryApiResponse
+    updateCategory(input: UpdateCategoryInput!): CategoryApiResponse
+    trashedCategory(id: Int!): CategoryDeleteAtApiResponse
+    restoreCategory(id: Int!): CategoryDeleteAtApiResponse
+    deleteCategoryPermanent(id: Int!): BooleanApiResponse
+    restoreAllCategories: BooleanApiResponse
+    deleteAllCategoriesPermanent: BooleanApiResponse
+}

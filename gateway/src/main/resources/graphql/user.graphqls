@@ -1,0 +1,89 @@
+"A user record (active, not deleted)."
+type User {
+    id: Int
+    username: String
+    firstname: String
+    lastname: String
+    email: String
+    createdAt: String
+    updatedAt: String
+}
+
+"A user record including its soft-delete timestamp."
+type UserDeleteAt {
+    id: Int
+    firstname: String
+    lastname: String
+    email: String
+    createdAt: String
+    updatedAt: String
+    deletedAt: String
+}
+
+type UserApiResponse {
+    status: String
+    message: String
+    data: User
+}
+
+type UserDeleteAtApiResponse {
+    status: String
+    message: String
+    data: UserDeleteAt
+}
+
+type UserListResponse {
+    status: String
+    message: String
+    data: [User]
+}
+
+type UserListPaginationResponse {
+    status: String
+    message: String
+    data: [User]
+    pagination: PageInfo
+}
+
+type UserDeleteAtListPaginationResponse {
+    status: String
+    message: String
+    data: [UserDeleteAt]
+    pagination: PageInfo
+}
+
+input CreateUserInput {
+    username: String
+    firstname: String
+    lastname: String
+    email: String
+    password: String
+    confirmPassword: String
+}
+
+input UpdateUserInput {
+    id: Int
+    username: String
+    firstname: String
+    lastname: String
+    email: String
+    password: String
+    confirmPassword: String
+}
+
+extend type Query {
+    users(input: PageInput): UserListPaginationResponse
+    user(id: Int!): UserApiResponse
+    usersActive(input: PageInput): UserDeleteAtListPaginationResponse
+    usersTrashed(input: PageInput): UserDeleteAtListPaginationResponse
+}
+
+extend type Mutation {
+    createUser(input: CreateUserInput!): UserApiResponse
+    updateUser(input: UpdateUserInput!): UserApiResponse
+    trashUser(id: Int!): UserDeleteAtApiResponse
+    restoreUser(id: Int!): UserDeleteAtApiResponse
+    deleteUserPermanent(id: Int!): BooleanApiResponse
+    restoreAllUsers: BooleanApiResponse
+    deleteAllUsersPermanent: BooleanApiResponse
+}

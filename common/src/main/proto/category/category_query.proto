@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package pb.category;
+
+import "category/category.proto";
+
+option java_multiple_files = true;
+option java_package = "com.sanedge.pointofsale.pb.category";
+
+service CategoryQueryService {
+  rpc FindAll(FindAllCategoryRequest) returns (ApiResponsePaginationCategory) {}
+  rpc FindById(FindByIdCategoryRequest) returns (ApiResponseCategory) {}
+  rpc FindByActive(FindAllCategoryRequest) returns (ApiResponsePaginationCategoryDeleteAt) {}
+  rpc FindByTrashed(FindAllCategoryRequest) returns (ApiResponsePaginationCategoryDeleteAt) {}
+}
